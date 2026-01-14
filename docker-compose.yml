@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  mrd-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mrd-detection-api:latest
+    container_name: mrd-detection-api
+    ports:
+      - "8000:8000"
+    environment:
+      TORCH_DEVICE: "cpu"  # Change to "cuda" if GPU available
+    volumes:
+      - ./model:/app/model:ro
+      - ./logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s

@@ -1,0 +1,254 @@
+{
+  "source_path": "model/vae_4dim_6_final.pth",
+  "type": "OrderedDict",
+  "top_level_keys": [
+    "encoder.0.weight",
+    "encoder.0.bias",
+    "encoder.2.weight",
+    "encoder.2.bias",
+    "encoder.4.weight",
+    "encoder.4.bias",
+    "fc_mu.weight",
+    "fc_mu.bias",
+    "fc_log_var.weight",
+    "fc_log_var.bias",
+    "decoder.0.weight",
+    "decoder.0.bias",
+    "decoder.2.weight",
+    "decoder.2.bias",
+    "decoder.4.weight",
+    "decoder.4.bias",
+    "decoder.6.weight",
+    "decoder.6.bias"
+  ],
+  "state_dict_present": true,
+  "num_state_keys": 18,
+  "num_parameters": 894,
+  "layers_sample": [
+    {
+      "name": "encoder.0.weight",
+      "shape": [
+        16,
+        14
+      ],
+      "dtype": "torch.float32",
+      "numel": 224,
+      "mean": -0.17369523644447327,
+      "std": 7.41633939743042,
+      "min": -39.5289306640625,
+      "max": 77.9622802734375
+    },
+    {
+      "name": "encoder.0.bias",
+      "shape": [
+        16
+      ],
+      "dtype": "torch.float32",
+      "numel": 16,
+      "mean": -1.1163330078125,
+      "std": 8.198573112487793,
+      "min": -20.078367233276367,
+      "max": 11.750113487243652
+    },
+    {
+      "name": "encoder.2.weight",
+      "shape": [
+        8,
+        16
+      ],
+      "dtype": "torch.float32",
+      "numel": 128,
+      "mean": -0.6913275122642517,
+      "std": 4.994385719299316,
+      "min": -32.39828109741211,
+      "max": 16.88463592529297
+    },
+    {
+      "name": "encoder.2.bias",
+      "shape": [
+        8
+      ],
+      "dtype": "torch.float32",
+      "numel": 8,
+      "mean": -4.4405035972595215,
+      "std": 4.732162952423096,
+      "min": -11.901175498962402,
+      "max": 0.49503350257873535
+    },
+    {
+      "name": "encoder.4.weight",
+      "shape": [
+        4,
+        8
+      ],
+      "dtype": "torch.float32",
+      "numel": 32,
+      "mean": -0.6763187646865845,
+      "std": 2.4092977046966553,
+      "min": -10.714821815490723,
+      "max": 2.701939821243286
+    },
+    {
+      "name": "encoder.4.bias",
+      "shape": [
+        4
+      ],
+      "dtype": "torch.float32",
+      "numel": 4,
+      "mean": -0.6066644191741943,
+      "std": 3.679636240005493,
+      "min": -4.977496147155762,
+      "max": 3.8415088653564453
+    },
+    {
+      "name": "fc_mu.weight",
+      "shape": [
+        4,
+        4
+      ],
+      "dtype": "torch.float32",
+      "numel": 16,
+      "mean": -0.06969263404607773,
+      "std": 0.14845308661460876,
+      "min": -0.5378250479698181,
+      "max": 0.003798124147579074
+    },
+    {
+      "name": "fc_mu.bias",
+      "shape": [
+        4
+      ],
+      "dtype": "torch.float32",
+      "numel": 4,
+      "mean": 0.4549599885940552,
+      "std": 0.9073294401168823,
+      "min": 0.0005936649395152926,
+      "max": 1.8159538507461548
+    },
+    {
+      "name": "fc_log_var.weight",
+      "shape": [
+        4,
+        4
+      ],
+      "dtype": "torch.float32",
+      "numel": 16,
+      "mean": -0.10766084492206573,
+      "std": 0.5424844026565552,
+      "min": -2.0520036220550537,
+      "max": 0.46993398666381836
+    },
+    {
+      "name": "fc_log_var.bias",
+      "shape": [
+        4
+      ],
+      "dtype": "torch.float32",
+      "numel": 4,
+      "mean": -1.826080560684204,
+      "std": 3.6446189880371094,
+      "min": -7.293008804321289,
+      "max": -0.002744808793067932
+    },
+    {
+      "name": "decoder.0.weight",
+      "shape": [
+        4,
+        4
+      ],
+      "dtype": "torch.float32",
+      "numel": 16,
+      "mean": 1.1310867071151733,
+      "std": 2.2602133750915527,
+      "min": -0.010023740120232105,
+      "max": 7.219915390014648
+    },
+    {
+      "name": "decoder.0.bias",
+      "shape": [
+        4
+      ],
+      "dtype": "torch.float32",
+      "numel": 4,
+      "mean": 1.7006711959838867,
+      "std": 3.1127920150756836,
+      "min": -2.8181450366973877,
+      "max": 4.100654602050781
+    },
+    {
+      "name": "decoder.2.weight",
+      "shape": [
+        8,
+        4
+      ],
+      "dtype": "torch.float32",
+      "numel": 32,
+      "mean": -0.5810760259628296,
+      "std": 2.0996711254119873,
+      "min": -8.767887115478516,
+      "max": 1.7840999364852905
+    },
+    {
+      "name": "decoder.2.bias",
+      "shape": [
+        8
+      ],
+      "dtype": "torch.float32",
+      "numel": 8,
+      "mean": -1.873306155204773,
+      "std": 2.8488149642944336,
+      "min": -7.636213302612305,
+      "max": 0.39488208293914795
+    },
+    {
+      "name": "decoder.4.weight",
+      "shape": [
+        16,
+        8
+      ],
+      "dtype": "torch.float32",
+      "numel": 128,
+      "mean": -0.32423049211502075,
+      "std": 1.8530848026275635,
+      "min": -11.115839004516602,
+      "max": 3.7608389854431152
+    },
+    {
+      "name": "decoder.4.bias",
+      "shape": [
+        16
+      ],
+      "dtype": "torch.float32",
+      "numel": 16,
+      "mean": -2.381195306777954,
+      "std": 3.815985918045044,
+      "min": -12.220744132995605,
+      "max": 1.3292882442474365
+    },
+    {
+      "name": "decoder.6.weight",
+      "shape": [
+        14,
+        16
+      ],
+      "dtype": "torch.float32",
+      "numel": 224,
+      "mean": -0.008984776213765144,
+      "std": 0.09973210096359253,
+      "min": -0.5789311528205872,
+      "max": 0.26781052350997925
+    },
+    {
+      "name": "decoder.6.bias",
+      "shape": [
+        14
+      ],
+      "dtype": "torch.float32",
+      "numel": 14,
+      "mean": 0.2824419140815735,
+      "std": 0.1326563060283661,
+      "min": 0.09830356389284134,
+      "max": 0.5157462954521179
+    }
+  ]
+}
