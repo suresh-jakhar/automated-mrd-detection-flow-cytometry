@@ -20,7 +20,7 @@ def client():
 def sample_csv_file():
     """Create a sample CSV file in memory."""
     data = np.random.rand(1000, 14)
-    df = pd.DataFrame(data, columns=[f'feature_{i}' for i in range(14)])
+    df = pd.DataFrame(data, columns=[f"feature_{i}" for i in range(14)])
     csv_buffer = io.StringIO()
     df.to_csv(csv_buffer, index=False)
     csv_buffer.seek(0)
@@ -59,7 +59,7 @@ class TestPredictEndpoint:
         """Test prediction with single file."""
         files = {"files": ("test.csv", sample_csv_file, "text/csv")}
         response = client.post("/predict", files=files)
-        
+
         assert response.status_code == 200
         data = response.json()
         assert "mrd_pct" in data
@@ -71,7 +71,7 @@ class TestPredictEndpoint:
         files = {"files": ("test.csv", sample_csv_file, "text/csv")}
         params = {"return_details": True}
         response = client.post("/predict", files=files, params=params)
-        
+
         assert response.status_code == 200
         data = response.json()
         assert "mrd_pct" in data
@@ -86,10 +86,10 @@ class TestPredictEndpoint:
         files = [
             ("files", ("test1.csv", sample_csv_file, "text/csv")),
             ("files", ("test2.csv", sample_csv_file, "text/csv")),
-            ("files", ("test3.csv", sample_csv_file, "text/csv"))
+            ("files", ("test3.csv", sample_csv_file, "text/csv")),
         ]
         response = client.post("/predict", files=files)
-        
+
         assert response.status_code == 200
         data = response.json()
         assert data["num_files"] == 3
@@ -100,7 +100,7 @@ class TestPredictEndpoint:
         files = {"files": ("test.csv", sample_csv_file, "text/csv")}
         params = {"threshold": 0.05, "return_details": True}
         response = client.post("/predict", files=files, params=params)
-        
+
         assert response.status_code == 200
         data = response.json()
         assert data["threshold"] == 0.05
@@ -124,7 +124,7 @@ class TestPredictEndpoint:
         csv_buffer = io.StringIO()
         df.to_csv(csv_buffer, index=False)
         csv_buffer.seek(0)
-        
+
         files = {"files": ("test.csv", csv_buffer.getvalue(), "text/csv")}
         response = client.post("/predict", files=files)
         assert response.status_code == 400
@@ -132,16 +132,16 @@ class TestPredictEndpoint:
     def test_predict_with_time_column(self, client):
         """Test that Time column is properly dropped."""
         data = np.random.rand(100, 14)
-        df = pd.DataFrame(data, columns=[f'feature_{i}' for i in range(14)])
-        df['Time'] = np.arange(100)
-        
+        df = pd.DataFrame(data, columns=[f"feature_{i}" for i in range(14)])
+        df["Time"] = np.arange(100)
+
         csv_buffer = io.StringIO()
         df.to_csv(csv_buffer, index=False)
         csv_buffer.seek(0)
-        
+
         files = {"files": ("test.csv", csv_buffer.getvalue(), "text/csv")}
         response = client.post("/predict", files=files)
-        
+
         assert response.status_code == 200
 
 
@@ -188,14 +188,14 @@ class TestPerformance:
         """Test handling of large file."""
         # Create a large CSV (10k rows)
         data = np.random.rand(10000, 14)
-        df = pd.DataFrame(data, columns=[f'feature_{i}' for i in range(14)])
+        df = pd.DataFrame(data, columns=[f"feature_{i}" for i in range(14)])
         csv_buffer = io.StringIO()
         df.to_csv(csv_buffer, index=False)
         csv_buffer.seek(0)
-        
+
         files = {"files": ("large_test.csv", csv_buffer.getvalue(), "text/csv")}
         response = client.post("/predict", files=files, params={"return_details": True})
-        
+
         assert response.status_code == 200
         data = response.json()
         assert data["total"] == 10000
@@ -203,13 +203,13 @@ class TestPerformance:
     def test_concurrent_requests(self, client, sample_csv_file):
         """Test that multiple requests can be handled."""
         files = {"files": ("test.csv", sample_csv_file, "text/csv")}
-        
+
         # Make multiple requests
         responses = []
         for _ in range(5):
             response = client.post("/predict", files=files)
             responses.append(response)
-        
+
         # All should succeed
         for response in responses:
             assert response.status_code == 200

@@ -9,10 +9,10 @@ import torch.nn as nn
 
 class VarAutoEncoder(nn.Module):
     """Variational Autoencoder matching the training pipeline."""
-    
+
     def __init__(self, input_dim, latent_dim=4):
         super().__init__()
-        
+
         # Encoder layers
         self.encoder = nn.Sequential(
             nn.Linear(input_dim, 16),
@@ -36,7 +36,7 @@ class VarAutoEncoder(nn.Module):
             nn.Linear(8, 16),
             nn.ELU(),
             nn.Linear(16, input_dim),
-            nn.ELU()
+            nn.ELU(),
         )
 
     def reparameterize(self, mu, log_var):
@@ -53,13 +53,13 @@ class VarAutoEncoder(nn.Module):
         z = self.reparameterize(mu, log_var)
         decoded = self.decoder(z)
         return decoded, mu, log_var
-    
+
     def encode(self, x):
         """Encode input to latent space (mu only, deterministic at eval time)."""
         encoded = self.encoder(x)
         mu = self.fc_mu(encoded)
         return mu
-    
+
     def decode(self, z):
         """Decode latent vector back to input space."""
         return self.decoder(z)
