@@ -40,8 +40,8 @@ app.add_middleware(
 # Global model instance (loaded once at startup)
 predictor = None
 
-# Configuration
-MODEL_PATH = "model/vae_4dim_6_final.pth"
+# Configuration - allow override from environment variables
+MODEL_PATH = os.environ.get("MODEL_PATH", "model/vae_4dim_6_final.pth")
 SCALER_PATH = None  # Set if you have a saved scaler
 INPUT_DIM = 14
 LATENT_DIM = 4
