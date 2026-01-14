@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mrd-detection-api
+  namespace: production
+  labels:
+    app: mrd-detection-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mrd-detection-api
+  template:
+    metadata:
+      labels:
+        app: mrd-detection-api
+    spec:
+      containers:
+      - name: mrd-api
+        image: your-registry/mrd-detection-api:latest
+        ports:
+        - containerPort: 8000
+          name: http
+        env:
+        - name: WORKERS
+          value: "4"
+        - name: DEVICE
+          value: "cpu"
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "1000m"
+          limits:
+            memory: "4Gi"
+            cpu: "2000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        volumeMounts:
+        - name: model-volume
+          mountPath: /app/model
+          readOnly: true
+      volumes:
+      - name: model-volume
+        persistentVolumeClaim:
+          claimName: model-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mrd-detection-api
+  namespace: production
+spec:
+  selector:
+    app: mrd-detection-api
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8000
+  type: LoadBalancer
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: mrd-detection-api-hpa
+  namespace: production
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: mrd-detection-api
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
