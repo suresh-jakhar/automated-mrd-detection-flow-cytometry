@@ -5,6 +5,7 @@ Integration tests for the FastAPI application.
 import pytest
 import io
 import os
+import sys
 import torch
 import pandas as pd
 import numpy as np
@@ -13,33 +14,29 @@ from fastapi.testclient import TestClient
 from model_wrapper import VarAutoEncoder
 
 
-@pytest.fixture(scope="module")
-def setup_test_model(tmp_path_factory):
-    """Create a temporary model file for testing."""
-    # Create temporary directory for model
-    tmp_dir = tmp_path_factory.mktemp("model")
-    model_path = tmp_dir / "vae_4dim_6_final.pth"
-
-    # Create and save a test model
-    model = VarAutoEncoder(input_dim=14, latent_dim=4)
-    torch.save(model.state_dict(), model_path)
-
-    # Set environment variable for the app to use this model
-    os.environ["MODEL_PATH"] = str(model_path)
-
+# Create model before any app imports
+@pytest.fixture(scope="session", autouse=True)
+def setup_test_model():
+    """Create a temporary model file for testing before app loads."""
+    # Create model directory if it doesn't exist
+    model_dir = Path("model")
+    model_dir.mkdir(exist_ok=True)
+    model_path = model_dir / "vae_4dim_6_final.pth"
+    
+    # Only create if doesn't exist (for CI environment)
+    if not model_path.exists():
+        model = VarAutoEncoder(input_dim=14, latent_dim=4)
+        torch.save(model.state_dict(), model_path)
+        
     yield model_path
-
-    # Cleanup
-    if "MODEL_PATH" in os.environ:
-        del os.environ["MODEL_PATH"]
+    
+    # Don't cleanup - model might be needed
 
 
-@pytest.fixture
-def client(setup_test_model):
-    """Create a test client with model setup."""
-    # Import app after MODEL_PATH is set
+@pytest.fixture(scope="module")
+def client():
+    """Create a test client."""
     from app import app
-
     return TestClient(app)
 
 
