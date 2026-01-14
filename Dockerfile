@@ -1,15 +1,28 @@
-FROM python:3.11-slim
+# Multi-stage build to reduce image size
+FROM python:3.11-slim AS builder
 
-WORKDIR /app
+WORKDIR /tmp
 
-# Install system dependencies
+# Install build dependencies (only needed during build)
 RUN apt-get update && apt-get install -y \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements and install Python dependencies
+# Copy requirements and install to a custom directory
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --user --no-cache-dir -r requirements.txt
+
+# Final stage - minimal runtime image
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Copy installed packages from builder
+COPY --from=builder /root/.local /root/.local
+
+# Set PATH to use local pip packages
+ENV PATH=/root/.local/bin:$PATH \
+    PYTHONUNBUFFERED=1
 
 # Copy application code
 COPY model_wrapper.py .
