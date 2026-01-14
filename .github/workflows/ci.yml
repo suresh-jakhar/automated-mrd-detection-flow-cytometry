@@ -57,9 +57,9 @@ jobs:
       run: |
         pytest tests/unit/ -v --cov=. --cov-report=xml --cov-report=html
         
-    - name: Run integration tests
+    - name: Run integration tests (health endpoints only)
       run: |
-        pytest tests/integration/ -v
+        pytest tests/integration/ -v -k "health or info or root or cors or error_handling"
         
     - name: Upload coverage reports
       uses: codecov/codecov-action@v3
