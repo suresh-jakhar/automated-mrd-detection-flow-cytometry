@@ -22,14 +22,14 @@ def setup_test_model():
     model_dir = Path("model")
     model_dir.mkdir(exist_ok=True)
     model_path = model_dir / "vae_4dim_6_final.pth"
-    
+
     # Only create if doesn't exist (for CI environment)
     if not model_path.exists():
         model = VarAutoEncoder(input_dim=14, latent_dim=4)
         torch.save(model.state_dict(), model_path)
-        
+
     yield model_path
-    
+
     # Don't cleanup - model might be needed
 
 
@@ -37,6 +37,7 @@ def setup_test_model():
 def client():
     """Create a test client."""
     from app import app
+
     return TestClient(app)
 
 
