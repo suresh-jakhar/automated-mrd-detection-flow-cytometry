@@ -8,9 +8,9 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements and install to a custom directory
-COPY requirements.txt .
-RUN pip install --user --no-cache-dir -r requirements.txt
+# Copy requirements and install to a custom directory (CPU-only PyTorch for smaller image)
+COPY requirements-docker.txt .
+RUN pip install --user --no-cache-dir -r requirements-docker.txt
 
 # Final stage - minimal runtime image
 FROM python:3.11-slim
