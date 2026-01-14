@@ -19,16 +19,16 @@ def setup_test_model(tmp_path_factory):
     # Create temporary directory for model
     tmp_dir = tmp_path_factory.mktemp("model")
     model_path = tmp_dir / "vae_4dim_6_final.pth"
-    
+
     # Create and save a test model
     model = VarAutoEncoder(input_dim=14, latent_dim=4)
     torch.save(model.state_dict(), model_path)
-    
+
     # Set environment variable for the app to use this model
     os.environ["MODEL_PATH"] = str(model_path)
-    
+
     yield model_path
-    
+
     # Cleanup
     if "MODEL_PATH" in os.environ:
         del os.environ["MODEL_PATH"]
@@ -39,6 +39,7 @@ def client(setup_test_model):
     """Create a test client with model setup."""
     # Import app after MODEL_PATH is set
     from app import app
+
     return TestClient(app)
 
 
